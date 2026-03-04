@@ -345,8 +345,8 @@ var PD={
     img:  'assets/img/financeiro.png',  
     link: 'https://github.com/gtpaes/financeiro',                                    
     t:    'Controlador Financeiro',
-    d:    'Sistema completo com autenticacao segura, calculo em tempo real e login e registro.',
-    d2:   'JWT para autenticacao, CRUD completo de financeiro, calculo automatico de saldo.',
+    d:    'Sistema completo com autentição segura, cálculo em tempo real, login e registro.',
+    d2:   'JWT para autenticação, CRUD completo de financeiro, cálculo automático de saldo.',
     tech: ['Node.js','Express','MongoDB','JWT','React'],
   },
   landing:{
@@ -354,8 +354,8 @@ var PD={
     img:  'assets/img/moverio.png',  
     link: 'https://gtpaes.github.io/MovieRio/index.html',                                    
     t:    'Landing Page MoveRio',
-    d:    'Landing de alto impacto com GSAP e ScrollTrigger para experiencia imersiva.',
-    d2:   'Efeito glitch, paralaxe e microinteracoes em cada elemento.',
+    d:    'Landing de alto impacto com GSAP e ScrollTrigger para experiência imersiva.',
+    d2:   'Efeito glitch, paralaxe e microinterações em cada elemento.',
     tech: ['GSAP','ScrollTrigger','HTML5','CSS3','JS'],
   },
 };

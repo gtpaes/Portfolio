@@ -1,134 +1,26 @@
-/* ════════════════════════════════
-   GT DEV — main.js
-════════════════════════════════ */
-
-/* ══ CURSOR ══ */
+/* CURSOR */
 const curEl  = document.getElementById('cur'),
       curfEl = document.getElementById('curf');
 let mx=0,my=0,fx=0,fy=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;curEl.style.left=mx+'px';curEl.style.top=my+'px';});
 (function tick(){fx+=(mx-fx)*.14;fy+=(my-fy)*.14;curfEl.style.left=fx+'px';curfEl.style.top=fy+'px';requestAnimationFrame(tick);})();
 
-/* ══════════════════════════════════════════════════════
-   MÁSCARA GT DEV — efeito idêntico ao GTA 6
-   ──────────────────────────────────────────────────────
-   MECÂNICA:
-   • Após o loader, a tela fica preta com "GT DEV" gigante.
-   • As letras são BURACOS no fundo preto (destination-out
-     no canvas): o site renderizado por baixo aparece DENTRO
-     das letras — máscara real, não gradient clip.
-   • O usuário ROLA O SCROLL para encolher o texto.
-   • Escala vai de 7 (letras quase fullscreen) → 1 (tamanho
-     exato do h-logo no hero).
-   • Quando chega em escala 1, overlay some e site aparece.
-   • NADA se move sozinho — 100% controlado pelo scroll.
-══════════════════════════════════════════════════════ */
-function initMaskIntro() {
-  const overlay = document.getElementById('maskOverlay');
-  const canvas  = document.getElementById('maskCanvas');
-  if (!overlay || !canvas) { initSite(); return; }
 
-  const ctx = canvas.getContext('2d');
-  let W, H;
-
-  /* ── tamanho do canvas = viewport ── */
-  function resize() {
-    W = canvas.width  = window.innerWidth;
-    H = canvas.height = window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize', () => { resize(); draw(currentScale); });
-
-  /* ── escala atual controlada pelo scroll ── */
-  let currentScale = 7;       // começa enorme
-  let done = false;
-
-  /* ── renderiza um frame da máscara ── */
-  function draw(sc) {
-    ctx.clearRect(0,0,W,H);
-
-    /* fundo sólido escuro */
-    ctx.fillStyle = '#050d1a';
-    ctx.fillRect(0,0,W,H);
-
-    /* tamanho da fonte: escala base × fator */
-    const basePx  = Math.min(W * 0.28, H * 0.35);  /* ~28vw ou 35vh */
-    const fontSize = basePx * sc;
-
-    ctx.save();
-    ctx.textAlign    = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.font = `900 ${fontSize}px 'Poppins', sans-serif`;
-
-    /* destination-out: apaga os pixels das letras → site aparece por baixo */
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.fillStyle = 'rgba(0,0,0,1)';
-    ctx.fillText('GT DEV', W/2, H/2);
-    ctx.restore();
-
-    /* borda luminosa azul nas letras */
-    ctx.save();
-    ctx.textAlign    = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.font = `900 ${fontSize}px 'Poppins', sans-serif`;
-    ctx.strokeStyle  = `rgba(56,189,248,${Math.min(0.9, sc * 0.15)})`;
-    ctx.lineWidth    = Math.max(1, sc * 2.5);
-    ctx.globalAlpha  = Math.min(1, sc * 0.25);
-    ctx.strokeText('GT DEV', W/2, H/2);
-    ctx.restore();
-  }
-
-  /* ── escuta scroll para controlar a escala ── */
-  const SCROLL_RANGE = window.innerHeight * 1.2; /* quanto de scroll para ir de 7→1 */
-
-  function onScroll() {
-    if (done) return;
-    const sy = window.scrollY;
-
-    /* mapeia scroll 0→SCROLL_RANGE para escala 7→1 */
-    const t = Math.min(1, sy / SCROLL_RANGE);
-    currentScale = 7 - (6 * t);   /* 7 → 1 */
-
-    draw(currentScale);
-
-    /* quando chegou em escala ~1, finaliza */
-    if (t >= 1) {
-      done = true;
-      window.removeEventListener('scroll', onScroll);
-      /* fade out suave do overlay */
-      overlay.style.transition = 'opacity 0.6s ease';
-      overlay.style.opacity    = '0';
-      setTimeout(() => {
-        overlay.style.display = 'none';
-        document.body.style.overflow = '';
-      }, 650);
-    }
-  }
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-
-  /* draw inicial: tela sólida com GT DEV gigante */
-  draw(7);
-
-  /* libera o scroll (estava bloqueado pelo loader) */
-  document.body.style.overflow = '';
-}
-
-/* ══ LOADER → MÁSCARA ══ */
+/* LOADER */
 window.addEventListener('load', () => {
   document.fonts.ready.then(() => {
     setTimeout(() => {
       document.getElementById('loader').classList.add('out');
-      /* pequena espera para o fade-out do loader */
+      
+      document.body.style.overflow = '';
       setTimeout(() => {
-        initMaskIntro();
         initSite();
       }, 500);
     }, 2500);
   });
 });
 
-/* ══ INIT SITE ══ */
+/* INIT SITE */
 function initSite() {
   initThree();
   initGlowFollow();
@@ -149,9 +41,10 @@ function initSite() {
   initCursorHover();
   initFooterMatrix();
   
+  
 }
 
-/* ══ THREE.JS ══ */
+/* THREE.JS */
 function initThree(){
   const cv=document.getElementById('cv');
   const R=new THREE.WebGLRenderer({canvas:cv,alpha:true,antialias:true});
@@ -178,7 +71,7 @@ function initThree(){
   let t=0;(function a(){requestAnimationFrame(a);t+=.004;pts.rotation.y=t*.12+ex*.08;pts.rotation.x=ey*.05;pts.rotation.z=t*.06;R.render(S,C);})();
 }
 
-/* ══ GLOW SEGUINDO MOUSE ══ */
+/* GLOW SEGUINDO MOUSE */
 function initGlowFollow(){
   const glow=document.querySelector('.h-glow');if(!glow)return;
   let gx=window.innerWidth/2,gy=window.innerHeight/2,tx=gx,ty=gy;
@@ -186,7 +79,7 @@ function initGlowFollow(){
   (function loop(){gx+=(tx-gx)*.08;gy+=(ty-gy)*.08;glow.style.left=gx+'px';glow.style.top=gy+'px';requestAnimationFrame(loop);})();
 }
 
-/* ══ PHOTO TILT ══ */
+/* PHOTO TILT */
 function initPhotoTilt(){
   const wrap=document.querySelector('.ph-wrap');if(!wrap)return;
   document.addEventListener('mousemove',e=>{
@@ -196,7 +89,7 @@ function initPhotoTilt(){
   });
 }
 
-/* ══ TYPEWRITER ══ */
+/* TYPEWRITER */
 function initTypewriter(){
   const el=document.getElementById('h-desc-type');if(!el)return;
   const phrases=[
@@ -217,7 +110,7 @@ function initTypewriter(){
   setTimeout(type,800);
 }
 
-/* ══ GSAP SCROLL ANIMATIONS ══ */
+/* GSAP SCROLL ANIMATIONS */
 function initScrollAnimations(){
   if(typeof gsap==='undefined'||typeof ScrollTrigger==='undefined')return;
   gsap.registerPlugin(ScrollTrigger);
@@ -246,7 +139,7 @@ function initScrollAnimations(){
   }
 }
 
-/* ══ REVEAL ══ */
+/* REVEAL */
 function initReveal(){
   const obs=new IntersectionObserver((entries)=>{
     entries.forEach((e,i)=>{
@@ -259,20 +152,20 @@ function initReveal(){
   document.querySelectorAll('.rev').forEach(el=>obs.observe(el));
 }
 
-/* ══ CONTADORES ══ */
+/* CONTADORES */
 function initCounters(){
   const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){cnt(e.target);obs.unobserve(e.target);}});},{threshold:.5});
   document.querySelectorAll('.sn').forEach(el=>obs.observe(el));
 }
 function cnt(el){const t=+el.dataset.t;let c=0;const iv=setInterval(()=>{c=Math.min(c+t/60,t);el.textContent=Math.floor(c);if(c>=t)clearInterval(iv);},20);}
 
-/* ══ NAVBAR ══ */
+/* NAVBAR */
 function initNavbar(){
   window.addEventListener('scroll',()=>{document.getElementById('nb').classList.toggle('sc',window.scrollY>40);hilite();});
 }
 function hilite(){let cur='';document.querySelectorAll('section[id]').forEach(s=>{if(window.scrollY>=s.offsetTop-120)cur=s.id;});document.querySelectorAll('.n-link').forEach(l=>l.classList.toggle('act',l.getAttribute('href')==='#'+cur));}
 
-/* ══ HAMBURGUER ══ */
+/* HAMBURGUER */
 function initHamburger(){
   const ham=document.getElementById('ham'),nl=document.getElementById('nl'),ov=document.getElementById('navOverlay');
   let savedY=0;
@@ -284,7 +177,7 @@ function initHamburger(){
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&ham.classList.contains('open'))closeMenu();});
 }
 
-/* ══ SCROLL TRACKER ══ */
+/* SCROLL TRACKER */
 function initScrollTracker(){
   const track=document.getElementById('scrollTrack'),progress=document.getElementById('stProgress'),nodes=document.querySelectorAll('.st-node');
   const ids=['hero','about','projects','features','contact'];
@@ -302,7 +195,7 @@ function initScrollTracker(){
   nodes.forEach(n=>n.addEventListener('click',e=>{e.preventDefault();const s=document.getElementById(n.dataset.section);if(s)s.scrollIntoView({behavior:'smooth',block:'start'});}));
 }
 
-/* ══ TERMINAL ══ */
+/* TERMINAL */
 function initTerminal(){
   const body=document.getElementById('termBody');if(!body)return;
   const lines=[
@@ -338,11 +231,11 @@ function typeLines(lines,container){
   });
 }
 
-/* ══ MODAL ══ */
+/* MODAL */
 var PD={
   financeiro:{
     tag:  'Full Stack',
-    img:  'assets/img/financeiro.png',  
+    video:  'assets/video/financeiro.mp4',  
     link: 'https://github.com/gtpaes/financeiro',                                    
     t:    'Controlador Financeiro',
     d:    'Sistema completo com autentição segura, cálculo em tempo real, login e registro.',
@@ -361,53 +254,155 @@ var PD={
 };
 
 function initModal(){
-  var ov=document.getElementById('mo'),mc=document.getElementById('mc');
+  var ov = document.getElementById('mo');
+  var mc = document.getElementById('mc');
+
   document.querySelectorAll('.om').forEach(function(b){
-    b.addEventListener('click',function(){
-      var p=PD[b.dataset.p];if(!p)return;
-      var tech=p.tech.map(function(t){return'<span>'+t+'</span>';}).join('');
+    b.addEventListener('click', function(){
+      var p = PD[b.dataset.p];
+      if (!p) return;
 
-      
-      var preview;
-      if(p.img){
-        preview=
-          '<div class="m-prev" style="background:#060e1e;padding:0;">'+
-            '<img src="'+p.img+'" alt="'+p.t+'" style="'+
-              'width:100%;height:100%;'+
-              'object-fit:fill;'+        /* imagem completa, sem cortar */
-              'object-position:center 100%;'+
-              'display:block;border-radius:12px;'+
-            '"/>'+
-          '</div>';
-      } else {
-        preview='<div class="m-prev" style="background:'+p.bg+'"><svg viewBox="0 0 100 100">'+p.ico+'</svg></div>';
-      }
+      var tech = p.tech.map(function(t){ return '<span>' + t + '</span>'; }).join('');
 
-      document.getElementById('mi').innerHTML=
-        preview+
-        '<span class="m-tag">'+p.tag+'</span>'+
-        '<h2>'+p.t+'</h2>'+
-        '<p>'+p.d+'</p>'+
-        '<p>'+p.d2+'</p>'+
-        '<h4>Tecnologias</h4>'+
-        '<div class="m-tech">'+tech+'</div>'+
-        '<div class="m-acts">'+
-          '<a href="'+(p.link||'#')+'" class="btn btn-p" target="_blank"><span>Ver Projeto</span></a>'+
-          '<a href="#contact" class="btn btn-o" id="mcl"><span>Solicitar Similar</span></a>'+
+      /*  monta o HTML do modal  */
+      document.getElementById('mi').innerHTML =
+        '<div class="m-preview-wrap" id="mPreviewWrap"></div>' +
+        '<div class="m-info">' +
+          '<span class="m-tag">' + p.tag + '</span>' +
+          '<h2>' + p.t + '</h2>' +
+          '<p>' + p.d + '</p>' +
+          '<p>' + p.d2 + '</p>' +
+          '<h4>Tecnologias</h4>' +
+          '<div class="m-tech">' + tech + '</div>' +
+          '<div class="m-acts">' +
+            '<a href="' + (p.link || '#') + '" class="btn btn-p" target="_blank"><span>Ver Projeto</span></a>' +
+            '<a href="#contact" class="btn btn-o" id="mcl"><span>Solicitar Similar</span></a>' +
+          '</div>' +
         '</div>';
 
-      ov.classList.add('open');document.body.style.overflow='hidden';
-      document.getElementById('mcl').addEventListener('click',closeM);
+       
+      var wrap = document.getElementById('mPreviewWrap');
+
+      if (p.video) {
+        /* container do player */
+        var player = document.createElement('div');
+        player.className = 'm-video-player';
+
+        /* o vídeo em si — sem autoplay */
+        var vid = document.createElement('video');
+        vid.src         = p.video;
+        vid.className   = 'm-video-el';
+        vid.preload     = 'metadata';
+        vid.playsInline = true;
+        /* NÃO muted, NÃO autoplay — usuário controla */
+
+        /* overlay de play (some quando pausado) */
+        var playBtn = document.createElement('button');
+        playBtn.className   = 'm-play-btn';
+        playBtn.innerHTML   = '<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>';
+        playBtn.setAttribute('aria-label', 'Play');
+
+        /* barra de controles customizada */
+        var controls = document.createElement('div');
+        controls.className = 'm-controls';
+        controls.innerHTML =
+          '<button class="m-ctrl-btn" id="mPlayPause" aria-label="Play/Pause">' +
+            '<svg class="ic-play" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>' +
+            '<svg class="ic-pause" viewBox="0 0 24 24" style="display:none"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>' +
+          '</button>' +
+          '<div class="m-progress-wrap"><div class="m-progress-bar" id="mBar"></div></div>' +
+          '<span class="m-time" id="mTime">0:00</span>' +
+          '<button class="m-ctrl-btn" id="mFullscreen" aria-label="Tela cheia">' +
+            '<svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>' +
+          '</button>';
+
+        player.appendChild(vid);
+        player.appendChild(playBtn);
+        player.appendChild(controls);
+        wrap.appendChild(player);
+
+        /*  lógica dos controles  */
+        var ppBtn   = controls.querySelector('#mPlayPause');
+        var bar     = controls.querySelector('#mBar');
+        var timeEl  = controls.querySelector('#mTime');
+        var fsBtn   = controls.querySelector('#mFullscreen');
+        var icPlay  = ppBtn.querySelector('.ic-play');
+        var icPause = ppBtn.querySelector('.ic-pause');
+
+        function fmtTime(s) {
+          var m = Math.floor(s / 60);
+          var ss = Math.floor(s % 60);
+          return m + ':' + (ss < 10 ? '0' : '') + ss;
+        }
+        function setPlaying(playing) {
+          icPlay.style.display  = playing ? 'none'  : '';
+          icPause.style.display = playing ? ''      : 'none';
+          playBtn.style.opacity = playing ? '0'     : '1';
+        }
+
+        /* play/pause via overlay */
+        playBtn.addEventListener('click', function(){
+          vid.play(); setPlaying(true);
+        });
+        /* play/pause via controles */
+        ppBtn.addEventListener('click', function(){
+          if (vid.paused){ vid.play(); setPlaying(true); }
+          else           { vid.pause(); setPlaying(false); }
+        });
+        /* clique no vídeo toggle */
+        vid.addEventListener('click', function(){
+          if (vid.paused){ vid.play(); setPlaying(true); }
+          else           { vid.pause(); setPlaying(false); }
+        });
+        /* progresso */
+        vid.addEventListener('timeupdate', function(){
+          if (!vid.duration) return;
+          bar.style.width = (vid.currentTime / vid.duration * 100) + '%';
+          timeEl.textContent = fmtTime(vid.currentTime) + ' / ' + fmtTime(vid.duration);
+        });
+        /* seek clicando na barra */
+        controls.querySelector('.m-progress-wrap').addEventListener('click', function(e){
+          var rect = this.getBoundingClientRect();
+          vid.currentTime = (e.clientX - rect.left) / rect.width * vid.duration;
+        });
+        /* tela cheia */
+        fsBtn.addEventListener('click', function(){
+          if (player.requestFullscreen)            player.requestFullscreen();
+          else if (player.webkitRequestFullscreen) player.webkitRequestFullscreen();
+        });
+        /* ao terminar volta ao início */
+        vid.addEventListener('ended', function(){ setPlaying(false); });
+
+      } else if (p.img) {
+        var img = document.createElement('img');
+        img.src       = p.img;
+        img.alt       = p.t;
+        img.className = 'm-img-preview';
+        wrap.appendChild(img);
+
+      } else if (p.bg && p.ico) {
+        wrap.innerHTML = '<div class="m-prev" style="background:' + p.bg + '"><svg viewBox="0 0 100 100">' + p.ico + '</svg></div>';
+      }
+
+      ov.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('mcl').addEventListener('click', closeM);
     });
   });
-  mc.addEventListener('click',closeM);
-  ov.addEventListener('click',function(e){if(e.target===ov)closeM();});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM();});
+
+  mc.addEventListener('click', closeM);
+  ov.addEventListener('click', function(e){ if (e.target === ov) closeM(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeM(); });
 }
-function closeM(){document.getElementById('mo').classList.remove('open');document.body.style.overflow='';}
 
+function closeM(){
+  /* pausa qualquer vídeo aberto antes de fechar */
+  var vid = document.querySelector('#mPreviewWrap video');
+  if (vid) vid.pause();
+  document.getElementById('mo').classList.remove('open');
+  document.body.style.overflow = '';
+}
 
-/* ══ FORMULARIO ══ */
 function initForm(){
   var form=document.getElementById('contactForm'),btn=document.getElementById('sb'),txt=document.getElementById('sbText');
   if(!form)return;
@@ -431,7 +426,7 @@ function showToast(msg,type){
   t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},4500);
 }
 
-/* ══ MAGNETISMO ══ */
+/* MAGNETISMO */
 function initMagnetic(){
   document.querySelectorAll('.btn').forEach(function(b){
     b.addEventListener('mousemove',function(e){var r=b.getBoundingClientRect();b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.18)+'px,'+((e.clientY-r.top-r.height/2)*.18)+'px)';});
@@ -439,7 +434,7 @@ function initMagnetic(){
   });
 }
 
-/* ══ GLITCH — pseudo-elementos CSS, nunca textShadow ══ */
+/* GLITCH — pseudo-elementos CSS, nunca textShadow */
 function initGlitch(){
   var l=document.getElementById('hl');if(!l)return;
   var g;
@@ -448,7 +443,7 @@ function initGlitch(){
   });
 }
 
-/* ══ SCROLL SUAVE ══ */
+/* SCROLL SUAVE */
 function initSmooth(){
   document.querySelectorAll('a[href^="#"]').forEach(function(a){
     a.addEventListener('click',function(e){
@@ -458,7 +453,7 @@ function initSmooth(){
   });
 }
 
-/* ══ CURSOR HOVER ══ */
+/* CURSOR HOVER */
 function initCursorHover(){
   document.querySelectorAll('a,button,.p-card,.f-card,.soc-l,.btn-c,.st-node').forEach(function(el){
     el.addEventListener('mouseenter',function(){curEl.classList.add('big');curfEl.classList.add('big');});
@@ -466,7 +461,7 @@ function initCursorHover(){
   });
 }
 
-/* ══ FOOTER MATRIX ══ */
+/* FOOTER MATRIX */
 function initFooterMatrix(){
   const canvas=document.getElementById('footerCanvas');if(!canvas)return;
   const ctx=canvas.getContext('2d');
@@ -479,4 +474,3 @@ function initFooterMatrix(){
   resize();window.addEventListener('resize',resize);
   new IntersectionObserver((entries)=>{entries[0].isIntersecting?startLoop():stopLoop();},{threshold:.05}).observe(canvas.parentElement);
 }
-

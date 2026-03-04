@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Gt Dev | Portfólio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="maskOverlay" style="position:fixed;inset:0;z-index:99998;display:none;pointer-events:none;">
+      <canvas id="maskCanvas" style="display:block;width:100%;height:100%;"></canvas>
+    </div>
+
+    <div class="cursor" id="cur"></div>
+    <div class="cursor-f" id="curf"></div>
+    <div class="loader" id="loader">
+      <div class="loader-inner">
+        <div class="l-logo">GT<span>Dev</span></div>
+        <div class="l-bar"><div class="l-fill"></div></div>
+        <p class="l-txt">CARREGANDO...</p>
+      </div>
+    </div>
+    <nav class="scroll-track" id="scrollTrack">
+      <div class="st-line"><div class="st-progress" id="stProgress"></div></div>
+      <div class="st-nodes">
+        <a href="#hero" class="st-node" data-section="hero"
+          ><div class="st-dot"><div class="st-dot-inner"></div></div>
+          <span class="st-label">Inicio</span></a
+        ><a href="#about" class="st-node" data-section="about"
+          ><div class="st-dot"><div class="st-dot-inner"></div></div>
+          <span class="st-label">Sobre</span></a
+        ><a href="#projects" class="st-node" data-section="projects"
+          ><div class="st-dot"><div class="st-dot-inner"></div></div>
+          <span class="st-label">Projetos</span></a
+        ><a href="#features" class="st-node" data-section="features"
+          ><div class="st-dot"><div class="st-dot-inner"></div></div>
+          <span class="st-label">Diferenciais</span></a
+        ><a href="#contact" class="st-node" data-section="contact"
+          ><div class="st-dot"><div class="st-dot-inner"></div></div>
+          <span class="st-label">Contato</span></a
+        >
+      </div>
+    </nav>
+    <div class="nav-overlay" id="navOverlay"></div>
+    <nav class="navbar" id="nb">
+      <div class="n-logo">GT<span>Dev</span></div>
+      <ul class="n-links" id="nl">
+        <li><a href="#hero" class="n-link">Inicio</a></li>
+        <li><a href="#about" class="n-link">Sobre</a></li>
+        <li><a href="#projects" class="n-link">Projetos</a></li>
+        <li><a href="#features" class="n-link">Diferenciais</a></li>
+        <li><a href="#contact" class="n-link">Contato</a></li>
+      </ul>
+      <button class="ham" id="ham" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <section class="hero" id="hero">
+      <canvas id="cv"></canvas>
+      <div class="h-glow"></div>
+      <div class="h-content">
+        <div class="h-badge">
+          <span class="dot"></span>Disponivel para projetos
+        </div>
+        <h1 class="h-logo" id="hl">GT<span>Dev</span></h1>
+        <div class="ph-wrap">
+          <div class="p-ring r1"></div>
+          <div class="p-ring r2"></div>
+          <div class="p-ring r3"></div>
+          <div class="ph-glow"></div>
+          <div class="ph" id="ph">
+            
+            <img
+              src="assets/img/68844d47-113e-4c51-94ae-1a6f9809ceed.jfif"
+              alt="gt dev"
+            />
+          </div>
+        </div>
+        <div class="h-text">
+          <p class="h-role">Desenvolvedor <span class="hl">Full Stack</span></p>
+          <p class="h-desc"><span class="tw-prefix">› </span><span id="h-desc-type"></span><span class="tw-cursor">|</span></p>
+        </div>
+        <div class="h-btns">
+          <a href="#projects" class="btn btn-p"
+            ><span>Ver Projetos</span
+            ><svg viewBox="0 0 24 24">
+              <path d="M5 12h14M12 5l7 7-7 7" /></svg></a
+          ><a href="assets/Gustavo-Paes-Dev-CV.pdf" download class="btn btn-o"><span>Currículo</span></a>
+        </div>
+        <div class="h-stats">
+          <div class="stat">
+            <span class="sn" data-t="1">0</span><span class="ss">+</span>
+            <p>Projetos Entregues</p>
+          </div>
+          <div class="sd"></div>
+          <div class="stat">
+            <span class="sn" data-t="1">0</span><span class="ss">+</span>
+            <p>Anos de Experiencia</p>
+          </div>
+          <div class="sd"></div>
+          <div class="stat">
+            <span class="sn" data-t="12">0</span><span class="ss">+</span>
+            <p>Tecnologias</p>
+          </div>
+          <div class="sd"></div>
+          <div class="stat">
+            <span class="sn" data-t="100">0</span><span class="ss">%</span>
+            <p>Comprometimento</p>
+          </div>
+        </div>
+      </div>
+      <div class="s-ind">
+        <div class="s-mou"><div class="s-whl"></div></div>
+        <p>Scroll</p>
+      </div>
+    </section>
+
+    
+
+    <section class="about" id="about">
+      <div class="s-hdr rev">
+        <span class="s-tag">// sobre mim</span>
+        <h2>Quem sou <span class="hl">eu</span></h2>
+      </div>
+      <div class="a-grid">
+        <div class="a-left">
+          <div class="a-text rev">
+            <p>
+              Sou desenvolvedor <strong>Full Stack</strong> com foco em
+              performance, design moderno e experiencias interativas.
+              Especialista em criar aplicacoes completas, desde frontend animado
+              ate backend estruturado e escalavel.
+            </p>
+            <p>
+              Apaixonado por tecnologia e inovacao, transformo ideias em
+              produtos digitais de alto impacto, sempre com codigo limpo, seguro
+              e bem documentado.
+            </p>
+            <div class="a-tags">
+              <span class="tag">Full Stack</span
+              ><span class="tag">APIs REST</span><span class="tag">UI/UX</span
+              ><span class="tag">Node.js</span><span class="tag">React</span
+              ><span class="tag">MongoDB</span><span class="tag">Three.js</span
+              ><span class="tag">GSAP</span>
+            </div>
+          </div>
+          <div class="sk-wrap rev">
+            <h3>Skills &amp; Tecnologias</h3>
+            <div class="sk-item" data-lv="95">
+              <div class="sk-info">
+                <span>HTML5</span><span class="sk-pct">95%</span>
+              </div>
+              <div class="sk-bar"><div class="sk-fill"></div></div>
+            </div>
+            <div class="sk-item" data-lv="90">
+              <div class="sk-info">
+                <span>CSS3 / Sass</span><span class="sk-pct">90%</span>
+              </div>
+              <div class="sk-bar"><div class="sk-fill"></div></div>
+            </div>
+            <div class="sk-item" data-lv="88">
+              <div class="sk-info">
+                <span>JavaScript</span><span class="sk-pct">88%</span>
+              </div>
+              <div class="sk-bar"><div class="sk-fill"></div></div>
+            </div>
+            <div class="sk-item" data-lv="82">
+              <div class="sk-info">
+                <span>React</span><span class="sk-pct">82%</span>
+              </div>
+              <div class="sk-bar"><div class="sk-fill"></div></div>
+            </div>
+            <div class="sk-item" data-lv="85">
+              <div class="sk-info">
+                <span>Node.js</span><span class="sk-pct">85%</span>
+              </div>
+              <div class="sk-bar"><div class="sk-fill"></div></div>
+            </div>
+            <div class="sk-item" data-lv="80">
+              <div class="sk-info">
+                <span>MongoDB</span><span class="sk-pct">80%</span>
+              </div>
+              <div class="sk-bar"><div class="sk-fill"></div></div>
+            </div>
+            <div class="sk-item" data-lv="87">
+              <div class="sk-info">
+                <span>APIs REST</span><span class="sk-pct">87%</span>
+              </div>
+              <div class="sk-bar"><div class="sk-fill"></div></div>
+            </div>
+            <div class="sk-item" data-lv="78">
+              <div class="sk-info">
+                <span>UI/UX Design</span><span class="sk-pct">78%</span>
+              </div>
+              <div class="sk-bar"><div class="sk-fill"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="terminal rev">
+          <div class="term-bar">
+            <div class="term-btns">
+              <span class="tb tb-r"></span><span class="tb tb-y"></span
+              ><span class="tb tb-g"></span>
+            </div>
+            <span class="term-title">gtdev@portfolio:~</span>
+          </div>
+          <div class="term-body" id="termBody"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="projects" id="projects">
+      <div class="s-hdr rev">
+        <span class="s-tag">// projetos</span>
+        <h2>Meus <span class="hl">Trabalhos</span></h2>
+      </div>
+
+      <div class="p-grid">
+        <div class="p-card rev">
+          <div class="c-img">
+            <div class="c-ph">
+              <img src="assets/img/financeiro.png" alt="Financeiro">
+            </div>
+            <div class="c-ov"><span class="c-tg">Full Stack</span></div>
+          </div>
+          <div class="c-body">
+            <h3>Controlador Financeiro</h3>
+            <p>
+              Projeto desenvolvido para facilitar o controle financeiro pessoal, permitindo registrar ganhos, despesas e acompanhar a organização do dinheiro de forma simples e intuitiva. O sistema foi pensado para ajudar usuários a visualizarem melhor sua vida financeira e tomarem decisões mais conscientes no dia a dia.
+            </p>
+            <div class="c-tech">
+              <span>Node.js</span><span>MongoDB</span><span>API Rest</span
+              ><span>React</span>
+            </div>
+            <button class="btn-c om" data-p="financeiro">
+              Ver Projeto
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="p-card rev">
+          <div class="c-img">
+            <div class="c-ph">
+              <img src="assets/img/moverio.png" alt="MoveRio">
+            </div>
+            <div class="c-ov"><span class="c-tg">Front-end</span></div>
+          </div>
+          <div class="c-body">
+            <h3>Landing Page MoveRio</h3>
+            <p>
+              Projeto focado em uma experiência digital moderna e dinâmica, com interface interativa e navegação fluida. A Moverio busca unir design e funcionalidade para oferecer uma plataforma prática, visualmente atraente e fácil de usar, destacando recursos de usabilidade e interação com o usuário.
+            </p>
+            <div class="c-tech">
+              <span>Js</span><span>GSAP</span><span>ScrollTrigger</span>
+            </div>
+            <button class="btn-c om" data-p="landing">
+              Ver Projeto
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="m-ov" id="mo">
+      <div class="modal" id="modal">
+        <button class="m-cls" id="mc">&#x2715;</button>
+        <div id="mi"></div>
+      </div>
+    </div>
+
+    <section class="features" id="features">
+      <div class="s-hdr rev">
+        <span class="s-tag">// diferenciais</span>
+        <h2>Por que me <span class="hl">escolher</span></h2>
+      </div>
+      <div class="f-grid">
+        <div class="f-card rev">
+          <div class="f-ico">&#9889;</div>
+          <h3>Performance Otimizada</h3>
+          <p>
+            Codigo limpo, carregamento rapido e otimizacoes para maxima
+            performance.
+          </p>
+        </div>
+        <div class="f-card rev">
+          <div class="f-ico">&#127912;</div>
+          <h3>UX Moderna</h3>
+          <p>Interfaces intuitivas e animadas que encantam os usuarios.</p>
+        </div>
+        <div class="f-card rev">
+          <div class="f-ico">&#128268;</div>
+          <h3>Integracao com APIs</h3>
+          <p>Experiencia solida com APIs REST e integracoes complexas.</p>
+        </div>
+        <div class="f-card rev">
+          <div class="f-ico">&#127959;</div>
+          <h3>Backend Estruturado</h3>
+          <p>Arquitetura escalavel, codigo organizado e banco bem modelado.</p>
+        </div>
+        <div class="f-card rev">
+          <div class="f-ico">&#128274;</div>
+          <h3>Seguranca &amp; Auth</h3>
+          <p>JWT, validacoes rigorosas e boas praticas de seguranca.</p>
+        </div>
+        <div class="f-card rev">
+          <div class="f-ico">&#128241;</div>
+          <h3>100% Responsivo</h3>
+          <p>Projetos adaptados para todos os dispositivos, mobile-first.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="s-hdr rev">
+        <span class="s-tag">// contato</span>
+        <h2>Vamos <span class="hl">trabalhar juntos</span></h2>
+      </div>
+      <div class="ct-grid">
+        <div class="rev">
+          <p class="ct-sub">
+            Tem um projeto em mente? Entre em contato. Respondo em ate 24 horas.
+          </p>
+          <div class="soc-links">
+            <a href="https://github.com/gtpaes" class="soc-l" target="_blank"
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"
+                /></svg>GitHub</a
+            >
+            <a href="https://www.linkedin.com/in/gustavo-paes-de-souza-456b783a5/" class="soc-l" target="_blank"
+              ><svg viewBox="0 0 24 24">
+                <path
+                  d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"
+                />
+                <circle cx="4" cy="4" r="2" /></svg>LinkedIn</a>
+
+            <a href="https://www.instagram.com/gt.paes_?igsh=MXc4aGZsZzhkNzhuMw%3D%3D&utm_source=qr" class="soc-l" target="_blank"
+              ><svg viewBox="0 0 24 24">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path
+                  d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"
+                ></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                <circle cx="4" cy="4" r="2" /></svg>Instagram</a
+            >
+
+            <a href="#" class="soc-l"
+              ><svg viewBox="0 0 24 24">
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="M22 7l-10 7L2 7" /></svg>gtpaesdev@gmail.com</a
+            >
+          </div>
+        </div>
+        <form
+          class="ct-form rev"
+          id="contactForm"
+          action="https://formspree.io/f/xpqjgvzj"
+          method="POST"
+        >
+          <input type="hidden" name="_subject" value="Novo contato - GT Dev" />
+          <input type="hidden" name="_language" value="pt" />
+          <div class="fg">
+            <label for="fname">Nome</label
+            ><input
+              id="fname"
+              type="text"
+              name="nome"
+              placeholder="Seu nome"
+              class="fi"
+              required
+            />
+          </div>
+          <div class="fg">
+            <label for="femail">Email</label
+            ><input
+              id="femail"
+              type="email"
+              name="_replyto"
+              placeholder="seu@email.com"
+              class="fi"
+              required
+            />
+          </div>
+          <div class="fg">
+            <label for="fmsg">Mensagem</label
+            ><textarea
+              id="fmsg"
+              name="mensagem"
+              placeholder="Descreva seu projeto..."
+              class="fi"
+              rows="5"
+              required
+            ></textarea>
+          </div>
+          <button type="submit" class="btn btn-p fw" id="sb">
+            <span id="sbText">Enviar Mensagem</span
+            ><svg id="sbIcon" viewBox="0 0 24 24">
+              <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+            </svg>
+          </button>
+        </form>
+      </div>
+    </section>
+
+   <footer class="footer">
+  <canvas id="footerCanvas"></canvas>
+  <div class="f-in">
+    <div class="f-logo">GT<span>Dev</span></div>
+    <p> &copy; 2026 GT Dev — Todos os direitos reservados</p>
+    <a href="#hero" class="bt"><svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg></a>
+  </div>
+</footer>
+    <div class="toast" id="toast"></div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
